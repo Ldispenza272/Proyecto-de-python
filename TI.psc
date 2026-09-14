@@ -82,24 +82,35 @@ Funcion retPPD <- ElegirPD (I)
 FinFuncion
 
 SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
-	Definir eleccion Como Caracter;
-	Definir cantidad, k Como Entero;
+	Definir eleccion, txt_ingre Como Caracter;
+	Definir cantidad, k, volt_ingre, micro_far_ingre Como Entero;
 	eleccion <- "si";
 	cantidad <- 0;
 	Escribir "EMPECEMOS CARGANDO TU INVENTARIO";
 	Escribir "VAMOS A ARRANCAR CON LOS CAPACITORES";
-	Mientras eleccion == "si" Hacer
+	Mientras eleccion == "si" y cantidad <= 14 Hacer
 		Escribir "SU INVENTARIO ACTUAL ES: ";
 		Para k <- 0 Hasta 14 Hacer
 			si Cant_cap[k] <> 0 Entonces
 				Escribir Cant_cap[k];
 				Escribir "";
 			FinSi
-			Escribir "INGRESE EL VALOR DE OHMS DE SU CAPACITOR";
-			
 		FinPara
+		Escribir "INGRESE EL VALOR EN MICROFARADIOS DE SU CAPACITOR";
+		Leer micro_far_ingre;
+		si micro_far_ingre > 0 Entonces
+			Escribir "INGRESE EL VOLTAJE QUE SORPORTA EL MISMO";
+			Leer volt_ingre;
+			si volt_ingre > 0 Entonces
+				Cap_Cap[cantidad] <- micro_far_ingre;
+				Volt_Cap[cantidad] <- volt_ingre;
+			SiNo
+				Escribir "Ingresó mal el voltaje que soporta";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal la capacidad del capacitor";
+		FinSi
 	FinMientras
-	
 FinSubProceso
 
 SubProceso Modificar_stock_capacitores(Cant_cap)
@@ -124,7 +135,8 @@ Proceso TI
 	Definir mod_inventario Como Caracter;
 	Dimensionar Cant_cap[15], Cant_Lm[15], Cant_dod[15];
 	Dimensionar Corr_dod[15], Volt_Cap[15], Cap_Cap[15], Tipo_LM[15];
-	op<-"S";
+	
+	op<-"si";
 	//PRECAGAR LISTAS EN 0 PARA ABM
 	Para j<-0 Hasta 14 Con Paso 1 Hacer
 		Cant_cap[j]<-0;
@@ -135,14 +147,14 @@ Proceso TI
 		Cap_Cap[j]<-0;
 		Tipo_LM[j]<-0;
 	FinPara
-
 	//
+	
 	Escribir "=========================================================";
 	Escribir "   SISTEMA DE DISEÑO Y PRESUPUESTO DE FUENTES LINEALES   ";
 	Escribir "=========================================================";
 	Escribir "   Gestión de Inventario y Cálculo de Componentes v1.0   ";
 	Escribir "---------------------------------------------------------";
-	Mientras op=="S" o op=="s" Hacer
+	Mientras op=="si" Hacer
 		Escribir "INGRESE LA CORRIENTE MÁXIMA DESEADA EN AMPERES (A) (MÁXIMO 0.8 A): ";
 		Leer I;
 		Escribir "INGRESE EL VOLTEJE DESEADO EN VOLTS (V) (MAXIMO 30 V): ";
@@ -181,8 +193,9 @@ Proceso TI
 		SiNo
 			Escribir "LA CORRIENTE INGRESADA ES SUPERIOR A 0.8 A O LA TENSION INGRESADA ES SUPERIOR A 30 V";
 		FinSi
-		Escribir "DESEA VOLVER A EJECUTAR EL PROGRAMA (S), SI NO PRESIONE CUALQUIER OTRA TECLA";
+		Escribir "DESEA VOLVER A EJECUTAR EL PROGRAMA (Si), SI NO PRESIONE CUALQUIER OTRA TECLA";
 		Leer op;
+		op <- Minusculas(op);
 		Borrar Pantalla;
 	FinMientras
 FinProceso
