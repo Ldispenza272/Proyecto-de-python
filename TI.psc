@@ -82,21 +82,24 @@ Funcion retPPD <- ElegirPD (I)
 FinFuncion
 
 SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
-	Definir eleccion, txt_ingre Como Caracter;
-	Definir cantidad, k, volt_ingre, micro_far_ingre, cant_ingre Como Entero;
+	Definir eleccion, txt_lm_ingre Como Caracter;
+	Definir cantidad, k, volt_ingre, micro_far_ingre, cant_ingre, corriente_ingre Como Entero;
+	
 	eleccion <- "si";
 	cantidad <- 0;
 	Escribir "EMPECEMOS CARGANDO TU INVENTARIO";
 	Escribir "VAMOS A ARRANCAR CON LOS CAPACITORES";
 	Mientras eleccion == "si" y cantidad <= 14 Hacer
-		Escribir "SU INVENTARIO ACTUAL ES: ";
-		Para k <- 0 Hasta 14 Hacer
-			si Cant_cap[k] <> 0 Entonces
-				Escribir Cant_cap[k];
-				Escribir "";
-			FinSi
-		FinPara
-		Escribir "INGRESE EL VALOR EN MICROFARADIOS DE SU CAPACITOR";
+		si cantidad <> 0 Entonces
+			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Para k <- 0 Hasta 14 Hacer
+				si Cant_cap[k] <> 0 Entonces
+					Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
+					Escribir "";
+				FinSi
+			FinPara
+		FinSi
+		Escribir "INGRESE EL VALOR EN MICROFARADIOS (uF) DE SU CAPACITOR";
 		Leer micro_far_ingre;
 		si micro_far_ingre > 0 Entonces
 			Escribir "INGRESE EL VOLTAJE QUE SORPORTA EL MISMO";
@@ -108,8 +111,13 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 					Cap_Cap[cantidad] <- micro_far_ingre;
 					Volt_Cap[cantidad] <- volt_ingre;
 					Cant_cap[cantidad] <- cant_ingre;
+					cantidad <- cantidad + 1;
+					Escribir "Desea agregar otro capacitor (si), sino precione cualquier tecla";
+					Leer eleccion;
+					eleccion <- Minusculas(eleccion);
+				SiNo
+					Escribir "Ingreso mal la cantidad del mismo";
 				FinSi
-				
 			SiNo
 				Escribir "Ingresó mal el voltaje que soporta";
 			FinSi
@@ -117,27 +125,253 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 			Escribir "Ingresó mal la capacidad del capacitor";
 		FinSi
 	FinMientras
+	
+	Limpiar Pantalla;
+	eleccion <- "si";
+	cantidad <- 0;
+	Escribir "Ahora vamos a cargar tus diodos";
+	Mientras eleccion == "si" y cantidad <= 14  Hacer
+		si cantidad <> 0 Entonces
+			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Para k <- 0 Hasta 14 Hacer
+				si Cant_dod[k] <> 0 Entonces
+					Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
+					Escribir "";
+				FinSi
+			FinPara
+		FinSi
+		Escribir "Ingrese la corriente en A que soporta su diodo";
+		Leer corriente_ingre;
+		si corriente_ingre > 0 Entonces
+			Escribir "INGRESE LA CANTIDAD QUE TIENE DEL MISMO";
+			Leer cant_ingre;
+			si cant_ingre > 0 Entonces
+				Cant_dod[cantidad] <- cant_ingre;
+				Corr_dod[cantidad] <- corriente_ingre;
+				cantidad <- cantidad + 1;
+				Escribir "Desea agregar otro diodo (si), sino precione cualquier tecla";
+				Leer eleccion;
+				eleccion <- Minusculas(eleccion);
+			SiNo
+				Escribir "Ingreso mal la cantidad que tiene del mismo";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal la corriente que soporta el diodo";
+		FinSi
+	FinMientras
+	
+	Limpiar Pantalla;
+	eleccion <- "si";
+	cantidad <- 0;
+	Escribir "Ahora vamos a cargar sus LM78XX";
+	Mientras eleccion == "si" y cantidad <= 14 Hacer
+		si cantidad <> 0 Entonces
+			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Para k <- 0 Hasta 14 Hacer
+				si Cant_Lm[k] <> 0 Entonces
+					Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
+					Escribir "";
+				FinSi
+			FinPara
+		FinSi
+		Escribir "Ingrese el tipo de LM78XX que tiene";
+		Leer txt_lm_ingre;
+		txt_lm_ingre <- Minusculas(txt_lm_ingre);
+		si txt_lm_ingre == "lm7805" o txt_lm_ingre == "lm7806" o txt_lm_ingre == "lm7808" o txt_lm_ingre == "lm7809" o txt_lm_ingre == "lm7812" o txt_lm_ingre == "lm7815" o txt_lm_ingre == "lm7818" o txt_lm_ingre == "lm7824" Entonces
+			Escribir "INGRESE LA CANTIDAD QUE TIENE DEL MISMO";
+			Leer cant_ingre;
+			si cant_ingre > 0 Entonces
+				Cant_Lm[cantidad] <- cant_ingre;
+				Tipo_LM[cantidad] <- txt_lm_ingre;
+				cantidad <- cantidad + 1;
+				Escribir "Desea agregar otro LM78XX (si), sino precione cualquier tecla";
+				Leer eleccion;
+				eleccion <- Minusculas(eleccion);
+			SiNo
+				Escribir "Ingreso mal la cantidad que tiene del mismo";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal el tipo de LM78XX";
+		FinSi
+	FinMientras
+	Limpiar Pantalla;
 FinSubProceso
 
-SubProceso Modificar_stock_capacitores(Cant_cap)
+SubProceso Modificar_inventario(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
+	Definir seguir_modificando Como Caracter;
+	Definir indice Como Entero;
 	
+	seguir_modificanto <- "si";
+	
+	Mientras seguir_modificando == "si" Hacer
+		Escribir "Que apartado desea modificar, ingre su índice";
+		Escribir "1- Capacitores";
+		Escribir "2- Diodos";
+		Escribir "3- LM78XX";
+		Leer indice;
+		Limpiar Pantalla;
+		Segun indice Hacer
+			1:
+				Modificar_stock_capacitores(Cant_cap, Volt_Cap, Cap_Cap);
+			2:
+				Modificar_stock_LM78xx(Cant_Lm, Tipo_LM);
+			3:
+				Modificar_stock_diodos(Cant_dod, Corr_dod);
+			De Otro Modo:
+				Escribir "Ingresó mal el índice";
+		FinSegun
+		Escribir "Desea modificar algún otro componete (si), sino presione cualquier otra tecla";
+		Leer seguir_modificando;
+		seguir_modificando <- Minusculas(seguir_modificando);
+	FinMientras
 FinSubProceso
 
-SubProceso Modificar_stock_LMxx(Cant_Lm)
+SubProceso Modificar_stock_capacitores(Cant_cap, Volt_Cap, Cap_Cap)
+	Definir k, indice, mayor Como Entero;
+	Definir micro_far_ingre, volt_ingre, cant_ingre Como Entero;
 	
+	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_cap[k] <> 0 Entonces
+			Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
+			Escribir "";
+			mayor <- k+1;
+		FinSi
+	FinPara
+	Escribir "Ingrese el indice del apartado que desea modificar";
+	Leer indice;
+	
+	si indice <= mayor y indice > 0 Entonces
+		Escribir "INGRESE EL VALOR EN MICROFARADIOS (uF) DE SU CAPACITOR";
+		Leer micro_far_ingre;
+		si micro_far_ingre > 0 Entonces
+			Escribir "INGRESE EL VOLTAJE QUE SORPORTA EL MISMO";
+			Leer volt_ingre;
+			si volt_ingre > 0 Entonces
+				Escribir "Ingrese la cantidad que tiene del mismo";
+				Leer cant_ingre;
+				si cant_ingre > 0 Entonces
+					Cap_Cap[indice-1] <- micro_far_ingre;
+					Volt_Cap[indice-1] <- volt_ingre;
+					Cant_cap[indice-1] <- cant_ingre;
+					Escribir "Se modificaron los datos de manera exitosa";
+					Esperar 2 Segundos;
+					Limpiar Pantalla;
+					Escribir "SU INVENTARIO ACTUAL ES: ";
+					Para k <- 0 Hasta 14 Hacer
+						si Cant_cap[k] <> 0 Entonces
+							Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
+							Escribir "";
+						FinSi
+					FinPara
+					Esperar 5 Segundos;
+				SiNo
+					Escribir "Ingreso mal la cantidad del mismo";
+				FinSi
+			SiNo
+				Escribir "Ingresó mal el voltaje que soporta";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal la capacidad del capacitor";
+		FinSi
+	FinSi
 FinSubProceso
 
-SubProceso Modificar_stock_diodos(Cant_dod)
+SubProceso Modificar_stock_LM78xx(Cant_Lm, Tipo_LM)
+	Definir k, indice, mayor Como Entero;
+	Definir txt_lm_ingre Como Caracter;
+	Definir cant_ingre Como Entero;
 	
+	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_Lm[k] <> 0 Entonces
+		Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
+		Escribir "";
+		mayor <- k + 1;
+		FinSi
+	FinPara
+	Escribir "Ingrese el indice del apartado que desea modificar";
+	Leer indice;
+	si indice <= mayor y indice > 0 Entonces
+		Escribir "Ingrese el tipo de LM78XX que tiene";
+		Leer txt_lm_ingre;
+		txt_lm_ingre <- Minusculas(txt_lm_ingre);
+		si txt_lm_ingre == "lm7805" o txt_lm_ingre == "lm7806" o txt_lm_ingre == "lm7808" o txt_lm_ingre == "lm7809" o txt_lm_ingre == "lm7812" o txt_lm_ingre == "lm7815" o txt_lm_ingre == "lm7818" o txt_lm_ingre == "lm7824" Entonces
+			Escribir "INGRESE LA CANTIDAD QUE TIENE DEL MISMO";
+			Leer cant_ingre;
+			si cant_ingre > 0 Entonces
+				Cant_Lm[indice - 1] <- cant_ingre;
+				Tipo_LM[indice - 1] <- txt_lm_ingre;
+				Escribir "Su inventario fue modificador de manera exitosa";
+				Esperar 2 Segundos;
+				Limpiar Pantalla;
+				Escribir "SU INVENTARIO ACTUAL ES: ";
+				Para k <- 0 Hasta 14 Hacer
+					si Cant_Lm[k] <> 0 Entonces
+						Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
+						Escribir "";
+					FinSi
+				FinPara
+			SiNo
+				Escribir "Ingreso mal la cantidad que tiene del mismo";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal el tipo de LM78XX";
+		FinSi
+	SiNo
+		Escribir "Ingresó mal el índice";
+	FinSi
+FinSubProceso
+
+SubProceso Modificar_stock_diodos(Cant_dod, Corr_dod)
+	Definir k, indice, mayor Como Entero;
+	Definir cant_ingre, corriente_ingre Como Entero;
+	
+	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_dod[k] <> 0 Entonces
+			Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
+			Escribir "";
+			mayor <- k + 1;
+		FinSi
+	FinPara
+	Escribir "Ingrese el indice del apartado que desea modificar";
+	Leer indice;
+	si indice <= mayor y indice > 0 Entonces
+		Escribir "Ingrese la corriente en A que soporta su diodo";
+		Leer corriente_ingre;
+		si corriente_ingre > 0 Entonces
+			Escribir "INGRESE LA CANTIDAD QUE TIENE DEL MISMO";
+			Leer cant_ingre;
+			si cant_ingre > 0 Entonces
+				Cant_dod[indice - 1] <- cant_ingre;
+				Corr_dod[indice - 1] <- corriente_ingre;
+				Escribir "Se modificaron los datos de manera exitosa";
+				Esperar 2 Segundos;
+				Limpiar Pantalla;
+				Escribir "SU INVENTARIO ACTUAL ES: ";
+				Para k <- 0 Hasta 14 Hacer
+					si Cant_dod[k] <> 0 Entonces
+						Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
+						Escribir "";
+					FinSi
+				FinPara
+			SiNo
+				Escribir "Ingreso mal la cantidad que tiene del mismo";
+			FinSi
+		SiNo
+			Escribir "Ingresó mal la corriente que soporta el diodo";
+		FinSi
+	FinSi
 FinSubProceso
 
 
 Proceso TI
 	Definir op Como Caracter;
-	Definir V, I, pf, e, pD, pC, pLMxx Como Real;
+	Definir V, I, pf, pD, pC, pLMxx Como Real;
 	Definir Cant_cap, Cant_Lm, Cant_dod Como Real;
 	Definir Corr_dod, Volt_Cap, Tipo_LM, Cap_Cap Como Real;
-	Definir j Como Entero;
+	Definir j, elec Como Entero;
 	Definir mod_inventario Como Caracter;
 	Dimensionar Cant_cap[15], Cant_Lm[15], Cant_dod[15];
 	Dimensionar Corr_dod[15], Volt_Cap[15], Cap_Cap[15], Tipo_LM[15];
@@ -169,8 +403,8 @@ Proceso TI
 			Escribir "SELECCIONE DE QUE MANERA VA A ARMAR SU PRESUPUESTO: ";
 			Escribir "[1] SELECCION AUTOMATICA";
 			Escribir "[2] ALTA/BAJA/MODIFICACION DE COMPONENTE: ";
-			Leer e;
-			Segun e Hacer
+			Leer elec;
+			Segun elec Hacer
 				1:
 					pD<-ElegirPD(I);
 					Escribir "PRESIONE UNA TECLA PARA CONTINUAR...";
@@ -189,12 +423,20 @@ Proceso TI
 				2:
 					Si Cant_cap[0] == 0 Y Cant_Lm[0] == 0 Y Cant_dod[0] == 0 Entonces
 						Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM);
+					SiNo
+						Escribir "Desea modificar su inventario (si), sino presione cualquier tecla";
+						Leer mod_inventario;
+						mod_inventario <- Minusculas(mod_inventario);
+						si mod_inventario == "si" Entonces
+							Limpiar Pantalla;
+							Modificar_inventario(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM);
+						FinSi
 					FinSi
 					
-					
+					// falta funcion para calcular en base al inventario
 					
 				De Otro Modo:
-					Escribir "OPCION INVALIDA";
+					Escribir "Ingresó mal la opción";
 			FinSegun
 		SiNo
 			Escribir "LA CORRIENTE INGRESADA ES SUPERIOR A 0.8 A O LA TENSION INGRESADA ES SUPERIOR A 30 V";
