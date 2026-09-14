@@ -83,7 +83,7 @@ FinFuncion
 
 SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
 	Definir eleccion, txt_ingre Como Caracter;
-	Definir cantidad, k, volt_ingre, micro_far_ingre Como Entero;
+	Definir cantidad, k, volt_ingre, micro_far_ingre, cant_ingre Como Entero;
 	eleccion <- "si";
 	cantidad <- 0;
 	Escribir "EMPECEMOS CARGANDO TU INVENTARIO";
@@ -102,8 +102,14 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 			Escribir "INGRESE EL VOLTAJE QUE SORPORTA EL MISMO";
 			Leer volt_ingre;
 			si volt_ingre > 0 Entonces
-				Cap_Cap[cantidad] <- micro_far_ingre;
-				Volt_Cap[cantidad] <- volt_ingre;
+				Escribir "Ingrese la cantidad que tiene del mismo";
+				Leer cant_ingre;
+				si cant_ingre > 0 Entonces
+					Cap_Cap[cantidad] <- micro_far_ingre;
+					Volt_Cap[cantidad] <- volt_ingre;
+					Cant_cap[cantidad] <- cant_ingre;
+				FinSi
+				
 			SiNo
 				Escribir "Ingresó mal el voltaje que soporta";
 			FinSi
