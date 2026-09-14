@@ -212,10 +212,10 @@ SubProceso Modificar_inventario(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, 
 	Definir seguir_modificando Como Caracter;
 	Definir indice Como Entero;
 	
-	seguir_modificanto <- "si";
+	seguir_modificando <- "si";
 	
 	Mientras seguir_modificando == "si" Hacer
-		Escribir "Que apartado desea modificar, ingre su índice";
+		Escribir "Que apartado desea modificar, ingrese su índice";
 		Escribir "1- Capacitores";
 		Escribir "2- Diodos";
 		Escribir "3- LM78XX";
@@ -295,10 +295,10 @@ SubProceso Modificar_stock_capacitores(Cant_cap, Volt_Cap, Cap_Cap)
 	Escribir "2- Modificar item";
 	Escribir "3- Eliminar item";
 	Leer opcion;
-	Limpiar Pantalla;
 	
 	Segun opcion Hacer
 		1:
+			Limpiar Pantalla;
 			Escribir "INGRESE EL VALOR EN MICROFARADIOS (uF) DE SU CAPACITOR";
 			Leer micro_far_ingre;
 			si micro_far_ingre > 0 Entonces
@@ -394,10 +394,10 @@ SubProceso Modificar_stock_LM78xx(Cant_Lm, Tipo_LM)
 	Escribir "2- Modificar item";
 	Escribir "3- Eliminar item";
 	Leer opcion;
-	Limpiar Pantalla;
 	
 	Segun opcion Hacer
 		1:
+			Limpiar Pantalla;
 			Escribir "Ingrese el tipo de LM78XX que tiene";
 			Leer txt_lm_ingre;
 			txt_lm_ingre <- Minusculas(txt_lm_ingre);
@@ -481,10 +481,10 @@ SubProceso Modificar_stock_diodos(Cant_dod, Corr_dod)
 	Escribir "2- Modificar item";
 	Escribir "3- Eliminar item";
 	Leer opcion;
-	Limpiar Pantalla;
 	
 	Segun opcion Hacer
 		1:
+			Limpiar Pantalla;
 			Escribir "Ingrese la corriente en A que soporta su diodo";
 			Leer corriente_ingre;
 			si corriente_ingre > 0 Entonces
@@ -555,8 +555,8 @@ Proceso TI
 	Dimensionar Cant_cap[15], Cant_Lm[15], Cant_dod[15];
 	Dimensionar Corr_dod[15], Volt_Cap[15], Cap_Cap[15], Tipo_LM[15];
 	
-	op<-"si";
-	//PRECAGAR LISTAS EN 0 PARA ABM
+	op <- "si";
+	//PRECAGAR LISTAS PARA ABM
 	Para j<-0 Hasta 14 Con Paso 1 Hacer
 		Cant_cap[j]<-0;
 		Cant_Lm[j]<-0;
@@ -566,38 +566,39 @@ Proceso TI
 		Cap_Cap[j]<-0;
 		Tipo_LM[j]<-"";
 	FinPara
-	//
 	
 	Escribir "=========================================================";
 	Escribir "   SISTEMA DE DISEÑO Y PRESUPUESTO DE FUENTES LINEALES   ";
 	Escribir "=========================================================";
 	Escribir "   Gestión de Inventario y Cálculo de Componentes v1.0   ";
 	Escribir "---------------------------------------------------------";
-	Mientras op=="si" Hacer
+	Mientras op == "si" Hacer
 		Escribir "INGRESE LA CORRIENTE MÁXIMA DESEADA EN AMPERES (A) (MÁXIMO 0.8 A): ";
 		Leer I;
 		Escribir "INGRESE EL VOLTEJE DESEADO EN VOLTS (V) (MAXIMO 30 V): ";
 		Leer V;
-		Si I<=0.8 y V<=30 Entonces				//HACER PROGRAMA DE ESTE SI (ES UN VALIDADOR DE ENTRADA)
+		
+		Si I <= 0.8 y I > 0 y V > 0 y V <= 30 Entonces				//HACER PROGRAMA DE ESTE SI (ES UN VALIDADOR DE ENTRADA)
 			Escribir "SELECCIONE DE QUE MANERA VA A ARMAR SU PRESUPUESTO: ";
 			Escribir "[1] SELECCION AUTOMATICA";
 			Escribir "[2] ALTA/BAJA/MODIFICACION DE COMPONENTE: ";
 			Leer elec;
+			
 			Segun elec Hacer
 				1:
-					pD<-ElegirPD(I);
+					pD <- ElegirPD(I);
 					Escribir "PRESIONE UNA TECLA PARA CONTINUAR...";
 					Esperar Tecla;
 					Borrar Pantalla;
-					pC<-ElegirCE(I, V);
+					pC <- ElegirCE(I, V);
 					Escribir "PRESIONE UNA TECLA PARA CONTINUAR...";
 					Esperar Tecla;
 					Borrar Pantalla;
-					pLMxx<-ElegirLMxx(V);
+					pLMxx <- ElegirLMxx(V);
 					Escribir "PRESIONE UNA TECLA PARA CONTINUAR...";
 					Esperar Tecla;
 					Borrar Pantalla;
-					pf<-pD+pC+pLMxx;
+					pf <- pD+pC+pLMxx;
 					Escribir "SU PRECIO FINAL DE LA FUENTE QUE DESEA ARMAR POR SELECCION AUTOMATICA ES: ", pf, " ARS";
 				2:
 					Si Cant_cap[0] == 0 Y Cant_Lm[0] == 0 Y Cant_dod[0] == 0 Entonces
@@ -618,9 +619,11 @@ Proceso TI
 				De Otro Modo:
 					Escribir "Ingresó mal la opción";
 			FinSegun
+			
 		SiNo
-			Escribir "LA CORRIENTE INGRESADA ES SUPERIOR A 0.8 A O LA TENSION INGRESADA ES SUPERIOR A 30 V";
+			Escribir "LA CORRIENTE INGRESADA ES SUPERIOR A 0.8A O LA TENSION INGRESADA ES SUPERIOR A 30V, O INGRESÓ VALORES NEGATIVOS";
 		FinSi
+		
 		Escribir "DESEA VOLVER A EJECUTAR EL PROGRAMA (Si), SI NO PRESIONE CUALQUIER OTRA TECLA";
 		Leer op;
 		op <- Minusculas(op);
