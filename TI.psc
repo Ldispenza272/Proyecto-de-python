@@ -1,11 +1,17 @@
 //TI PYTHON-PSEINT
 //INTEGRANTES: DISPENZA LEONEL, ARANCIBIA MARCOS, GUERRERO VALENTINA, MATHON MADELEM
-//ENTRADA: VOLTAJE DESEADO EN VOLTS (V), CORRIENTE MAXIMA EN AMPERES (A), COMPONENTE
+
+//ENTRADA: VOLTAJE DESEADO EN VOLTS (V), CORRIENTE MAXIMA EN AMPERES (A), CANTIDAD DE COMPENENTES, VOLTAJE CAPACITORES, CAPACIDAD CAPACITORES Y DIODOS, TIPO DE LM (REDUCTOR DE VOLTAJE) 
+
 //PROCESO: ABM COMPONENTES, SELECCION DE COMPONENTES QUE CUMPLAN CON LO REQUERIDO, IDENTIFICACION DE COMPONENTES FALTANTES Y SUMA DE PRECIO
+
 //SALIDA: LISTA DE COMPONENTES A USAR, PRECIO TOTAL ESTIMADO 
-//IA UTILIZADA GEMINI
+
+//IA UTILIZADA GEMINI EN MODO FLASH EXTENDIDO
 //COSAS QUE SE LE PIDIO: TEXTOS
-Funcion retLMxx <- ElegirLMxx ( V )
+//PROMTS:
+
+Funcion retLMxx <- ElegirLMxx( V )
 	Definir retLMxx Como Real;
 	Escribir "=========================================================";
 	Escribir "         SELECCIÓN DE REGULADOR DE VOLTAJE (LMxx)        ";
@@ -75,19 +81,7 @@ Funcion retPPD <- ElegirPD (I)
 	FinSi
 FinFuncion
 
-SubProceso Cargar_capacitores(Cant_cap)
-	
-FinSubProceso
-
-SubProceso Cargar_LMxx(Cant_Lm)
-	
-FinSubProceso
-
-SubProceso Cargar_diodos(Cant_dod)
-	
-FinSubProceso
-
-SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, )
+SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
 	Definir eleccion Como Caracter;
 	Definir cantidad, k Como Entero;
 	eleccion <- "si";
@@ -97,8 +91,8 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, )
 	Mientras eleccion == "si" Hacer
 		Escribir "SU INVENTARIO ACTUAL ES: ";
 		Para k <- 0 Hasta 14 Hacer
-			si List_cap[k] <> 0 Entonces
-				Escribir List_cap[k];
+			si Cant_cap[k] <> 0 Entonces
+				Escribir Cant_cap[k];
 				Escribir "";
 			FinSi
 			Escribir "INGRESE EL VALOR DE OHMS DE SU CAPACITOR";
@@ -107,6 +101,19 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, )
 	FinMientras
 	
 FinSubProceso
+
+SubProceso Modificar_stock_capacitores(Cant_cap)
+	
+FinSubProceso
+
+SubProceso Modificar_stock_LMxx(Cant_Lm)
+	
+FinSubProceso
+
+SubProceso Modificar_stock_diodos(Cant_dod)
+	
+FinSubProceso
+
 
 Proceso TI
 	Definir op Como Caracter;
@@ -163,11 +170,11 @@ Proceso TI
 					Escribir "SU PRECIO FINAL DE LA FUENTE QUE DESEA ARMAR POR SELECCION AUTOMATICA ES: ", pf, " ARS";
 				2:
 					Si Cant_cap[0] == 0 Y Cant_Lm[0] == 0 Y Cant_dod[0] == 0 Entonces
-						Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod);
+						Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM);
 					FinSi
-					Cargar_LMxx(Cant_Lm);
-					Cargar_diodos(Cant_dod);
-					Cargar_capacitores(Cant_cap);
+					
+					
+					
 				De Otro Modo:
 					Escribir "OPCION INVALIDA";
 			FinSegun
