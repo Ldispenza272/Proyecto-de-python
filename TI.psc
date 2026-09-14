@@ -92,13 +92,14 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 	Mientras eleccion == "si" y cantidad <= 14 Hacer
 		si cantidad <> 0 Entonces
 			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Escribir "";
 			Para k <- 0 Hasta 14 Hacer
 				si Cant_cap[k] <> 0 Entonces
 					Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
-					Escribir "";
 				FinSi
 			FinPara
 		FinSi
+		Escribir "";
 		Escribir "INGRESE EL VALOR EN MICROFARADIOS (uF) DE SU CAPACITOR";
 		Leer micro_far_ingre;
 		si micro_far_ingre > 0 Entonces
@@ -133,13 +134,14 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 	Mientras eleccion == "si" y cantidad <= 14  Hacer
 		si cantidad <> 0 Entonces
 			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Escribir "";
 			Para k <- 0 Hasta 14 Hacer
 				si Cant_dod[k] <> 0 Entonces
 					Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
-					Escribir "";
 				FinSi
 			FinPara
 		FinSi
+		Escribir "";
 		Escribir "Ingrese la corriente en A que soporta su diodo";
 		Leer corriente_ingre;
 		si corriente_ingre > 0 Entonces
@@ -167,13 +169,14 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 	Mientras eleccion == "si" y cantidad <= 14 Hacer
 		si cantidad <> 0 Entonces
 			Escribir "SU INVENTARIO ACTUAL ES: ";
+			Escribir "";
 			Para k <- 0 Hasta 14 Hacer
 				si Cant_Lm[k] <> 0 Entonces
 					Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
-					Escribir "";
 				FinSi
 			FinPara
 		FinSi
+		Escribir "";
 		Escribir "Ingrese el tipo de LM78XX que tiene";
 		Leer txt_lm_ingre;
 		txt_lm_ingre <- Minusculas(txt_lm_ingre);
@@ -191,7 +194,7 @@ SubProceso Cargar_Todo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod,
 				Escribir "Ingreso mal la cantidad que tiene del mismo";
 			FinSi
 		SiNo
-			Escribir "Ingresó mal el tipo de LM78XX";
+			Escribir "Ingresó mal el tipo de LM78XX, debe ingresar el modelo completo, ej: LM7812";
 		FinSi
 	FinMientras
 	Limpiar Pantalla;
@@ -220,10 +223,47 @@ SubProceso Modificar_inventario(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, 
 			De Otro Modo:
 				Escribir "Ingresó mal el índice";
 		FinSegun
+		Limpiar Pantalla;
+		Mostrar_inventario_completo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
+		Esperar 3 Segundos;
+		
 		Escribir "Desea modificar algún otro componete (si), sino presione cualquier otra tecla";
 		Leer seguir_modificando;
 		seguir_modificando <- Minusculas(seguir_modificando);
 	FinMientras
+FinSubProceso
+
+SubProceso Mostrar_inventario_completo(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, Corr_dod, Tipo_LM)
+	Definir k Como Entero;
+	Escribir "Su inventario de capacitores es: ";
+	Escribir "";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_cap[k] <> 0 Entonces
+			Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
+		FinSi
+	FinPara
+	
+	Escribir "";
+	
+	Escribir "Su inventario de LM78XX es: ";
+	Escribir "";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_Lm[k] <> 0 Entonces
+			Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
+		FinSi
+	FinPara
+	
+	Escribir "";
+	
+	Escribir "Su inventario actual de diodos es: ";
+	Escribir "";
+	Para k <- 0 Hasta 14 Hacer
+		si Cant_dod[k] <> 0 Entonces
+			Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
+		FinSi
+	FinPara
+	
+	Escribir "";
 FinSubProceso
 
 SubProceso Modificar_stock_capacitores(Cant_cap, Volt_Cap, Cap_Cap)
@@ -231,13 +271,15 @@ SubProceso Modificar_stock_capacitores(Cant_cap, Volt_Cap, Cap_Cap)
 	Definir micro_far_ingre, volt_ingre, cant_ingre Como Entero;
 	
 	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Escribir "";
 	Para k <- 0 Hasta 14 Hacer
 		si Cant_cap[k] <> 0 Entonces
 			Escribir k+1, "- Tiene ", Cant_cap[k], " capacitores de ", Cap_Cap[k], " microfaradios (uF) y ", Volt_Cap[k], "V" ;
-			Escribir "";
 			mayor <- k+1;
 		FinSi
 	FinPara
+	Escribir "";
+	
 	Escribir "Ingrese el indice del apartado que desea modificar";
 	Leer indice;
 	
@@ -283,13 +325,14 @@ SubProceso Modificar_stock_LM78xx(Cant_Lm, Tipo_LM)
 	Definir cant_ingre Como Entero;
 	
 	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Escribir "";
 	Para k <- 0 Hasta 14 Hacer
 		si Cant_Lm[k] <> 0 Entonces
 		Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
-		Escribir "";
 		mayor <- k + 1;
 		FinSi
 	FinPara
+	Escribir "";
 	Escribir "Ingrese el indice del apartado que desea modificar";
 	Leer indice;
 	si indice <= mayor y indice > 0 Entonces
@@ -306,6 +349,7 @@ SubProceso Modificar_stock_LM78xx(Cant_Lm, Tipo_LM)
 				Esperar 2 Segundos;
 				Limpiar Pantalla;
 				Escribir "SU INVENTARIO ACTUAL ES: ";
+				Escribir "";
 				Para k <- 0 Hasta 14 Hacer
 					si Cant_Lm[k] <> 0 Entonces
 						Escribir k+1, "- Tiene ", Cant_Lm[k], " del tipo ", Tipo_LM[k];
@@ -328,13 +372,14 @@ SubProceso Modificar_stock_diodos(Cant_dod, Corr_dod)
 	Definir cant_ingre, corriente_ingre Como Entero;
 	
 	Escribir "SU INVENTARIO ACTUAL ES: ";
+	Escribir "";
 	Para k <- 0 Hasta 14 Hacer
 		si Cant_dod[k] <> 0 Entonces
 			Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
-			Escribir "";
 			mayor <- k + 1;
 		FinSi
 	FinPara
+	Escribir "";
 	Escribir "Ingrese el indice del apartado que desea modificar";
 	Leer indice;
 	si indice <= mayor y indice > 0 Entonces
@@ -350,10 +395,10 @@ SubProceso Modificar_stock_diodos(Cant_dod, Corr_dod)
 				Esperar 2 Segundos;
 				Limpiar Pantalla;
 				Escribir "SU INVENTARIO ACTUAL ES: ";
+				Escribir "";
 				Para k <- 0 Hasta 14 Hacer
 					si Cant_dod[k] <> 0 Entonces
 						Escribir k+1, "- Tiene ", Cant_dod[k], " diodos de ", Corr_dod[k], " A" ;
-						Escribir "";
 					FinSi
 				FinPara
 			SiNo
