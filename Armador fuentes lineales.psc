@@ -18,6 +18,7 @@ Funcion retornoABM <- FibalABM ( I, V, Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Ca
 	tiene_dio <- Falso;
 	tiene_lm <- Falso;
 	
+	//Uso de IA en textos
 	Escribir "=========================================================";
 	Escribir "    Verificación de componentes en inventario            ";
 	Escribir "=========================================================";
@@ -82,6 +83,7 @@ FinFuncion
 Funcion retLMxx <- ElegirLMxx( V )
 	Definir retLMxx Como Real;
 	
+	//Uso de IA en textos
 	Escribir "=========================================================";
 	Escribir "         Selección de regulador de voltaje (LMxx)        ";
 	Escribir "=========================================================";
@@ -117,6 +119,7 @@ FinFuncion
 Funcion retPCE <- ElegirCE (I, V)
 	Definir retPCE Como Real;
 	
+	//Uso de IA en textos
 	Escribir "=========================================================";
 	Escribir "          Selección de capacitor electrolítico           ";
 	Escribir "=========================================================";
@@ -141,6 +144,7 @@ FinFuncion
 Funcion retPPD <- ElegirPD (I)
 	Definir retPPD Como Real;
 	
+	//Uso de IA en textos
 	Escribir "=========================================================";
 	Escribir "            Selección de puente rectificador             ";
 	Escribir "=========================================================";
@@ -649,6 +653,7 @@ Proceso Armador_de_fuentes_lineales
 		Tipo_LM[j]<-"";
 	FinPara
 	
+	//Uso de IA en textos
 	Escribir "=========================================================";
 	Escribir "   Sistema de diseño y presupuesto de fuentes lineales   ";
 	Escribir "=========================================================";
