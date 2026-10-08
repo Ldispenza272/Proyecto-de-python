@@ -2,7 +2,7 @@
 import os
 import time 
 
-# Función auxiliar para limpiar la pantalla (compatible con Windows y Linux/Mac)
+# Función auxiliar para limpiar la pantalla (compatible con Windows y Linux/Mac). 
 def limpiar_pantalla():
     os.system('cls' if os.name == 'nt' else 'clear')
 
