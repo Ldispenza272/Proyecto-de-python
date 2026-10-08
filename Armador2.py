@@ -1,5 +1,6 @@
-import os #LIBRERIA PARA BORRAR PANTALLA EN CONSOLA "BORRAR PANTALLA" DE PSEINT
-import time #LIBRERIA PARA PAUSAR EL PROGRAMA SERIA EL "ESPERAR TECLA DE PSEINT"
+#Para las listas se utilizó IA, para poder borrar la pantalla en la terminal y para pausar el programa por cierta cantidad de tiempo
+import os
+import time 
 
 # Función auxiliar para limpiar la pantalla (compatible con Windows y Linux/Mac)
 def limpiar_pantalla():
