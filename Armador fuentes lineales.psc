@@ -150,7 +150,7 @@ Funcion retPPD <- ElegirPD (I)
 	Escribir "=========================================================";
 	
 	Si I<0.4 Entonces
-		Escribir "Baja potencia (hasta 0.4 A - Ej: Diodos 1N4001..7) (3500 ARS los 4) ";
+		Escribir "Baja potencia (hasta 0.4 A - Ej: Diodos 1N4001...7) (3500 ARS los 4) ";
 		retPPD<-3500;
 	FinSi
 	
@@ -302,8 +302,8 @@ SubProceso Modificar_inventario(Cant_cap, Cant_Lm, Cant_dod, Volt_Cap, Cap_Cap, 
 	Mientras seguir_modificando == "si" Hacer
 		Escribir "Qué apartado desea modificar, ingrese su índice";
 		Escribir "1- Capacitores";
-		Escribir "2- Diodos";
-		Escribir "3- LM78XX";
+		Escribir "2- LM78XX";
+		Escribir "3- Diodos";
 		Leer indice;
 		Limpiar Pantalla;
 		Segun indice Hacer
